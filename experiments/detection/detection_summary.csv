@@ -1,0 +1,2 @@
+record_id,experiment_id,date_time,scenario,result,out_baseline_full_latency_ms,out_interleaved_n3_latency_ms,out_interleaved_speedup_pct
+EXP_11G_OPTIMIZATION_20260810_200332,EXP_11G_OPTIMIZATION,2026-08-10 20:03:32,"CPU PyTorch threading, resolution scaling, and tracking-interleaved frame skipping benchmark",VALIDATED,653.83,233.22,64.3

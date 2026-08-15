@@ -1,0 +1,3 @@
+record_id,experiment_id,date_time,scenario,result,out_overall_accuracy_pct,out_passed_scenarios
+EXP_11F_END_TO_END_20260810_200024,EXP_11F_END_TO_END,2026-08-10 20:00:24,End-to-end multi-module pipeline execution across 10 controlled scenarios,VALIDATED,60.0,6
+EXP_11F_END_TO_END_20260810_200049,EXP_11F_END_TO_END,2026-08-10 20:00:49,End-to-end multi-module pipeline execution across 10 controlled scenarios,VALIDATED,100.0,10

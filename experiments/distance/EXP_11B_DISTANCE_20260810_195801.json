@@ -1,0 +1,25 @@
+{
+  "record_id": "EXP_11B_DISTANCE_20260810_195801",
+  "experiment_id": "EXP_11B_DISTANCE",
+  "category": "distance",
+  "timestamp": 1786372081.0521796,
+  "date_time": "2026-08-10 19:58:01",
+  "os_environment": "Windows 11 / Python 3.14.6",
+  "scenario": "Controlled monocular distance accuracy evaluation",
+  "configuration": {
+    "focal_length_px": 600.0,
+    "near_m": 1.5,
+    "medium_m": 3.0
+  },
+  "measured_outputs": {
+    "mae_m": 0.041,
+    "mre_pct": 1.96,
+    "category_accuracy_pct": 100.0
+  },
+  "result": "VALIDATED",
+  "limitations": [
+    "Monocular pinhole approximation without stereo depth sensor",
+    "Bounding box pixel height subject to object pose and partial occlusion",
+    "Relies on fixed class-specific reference height profiles"
+  ]
+}

@@ -1,0 +1,12 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+torchvision
+torchaudio
+opencv-python
+ultralytics
+pyttsx3
+sounddevice
+SpeechRecognition
+pyyaml
+psutil
+scipy

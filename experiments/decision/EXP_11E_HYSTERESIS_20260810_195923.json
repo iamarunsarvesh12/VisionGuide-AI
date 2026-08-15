@@ -1,0 +1,22 @@
+{
+  "record_id": "EXP_11E_HYSTERESIS_20260810_195923",
+  "experiment_id": "EXP_11E_HYSTERESIS",
+  "category": "decision",
+  "timestamp": 1786372163.4614418,
+  "date_time": "2026-08-10 19:59:23",
+  "os_environment": "Windows 11 / Python 3.14.6",
+  "scenario": "Command stability and directional oscillation suppression comparison",
+  "configuration": {
+    "margin": 0.1,
+    "hold_sec": 0.5
+  },
+  "measured_outputs": {
+    "switches_without_hysteresis": 0,
+    "switches_with_hysteresis": 0,
+    "oscillation_reduction_pct": 0.0
+  },
+  "result": "VALIDATED",
+  "limitations": [
+    "Simulated noise boundary oscillations"
+  ]
+}

@@ -1,0 +1,27 @@
+intrinsics:
+  focal_length_px: 600.0
+  frame_width: 640.0
+  frame_height: 480.0
+  fov_horizontal_deg: 60.0
+  fov_vertical_deg: 45.0
+  aspect_ratio: 1.3333
+mounting:
+  mounting_height_m: 1.2
+  pitch_angle_deg: 0.0
+  yaw_angle_deg: 0.0
+  mounting_position: chest
+reference_profiles:
+  person: 1.7
+  door: 2.0
+  chair: 0.85
+  table: 0.75
+  stairs: 1.2
+  glass_door: 2.0
+  glass_wall: 2.0
+  cabinet: 1.5
+  corridor: 2.2
+  exit: 2.0
+  default: 1.0
+calibration_timestamp: null
+calibrated_by: WebcamCalibrator
+is_calibrated: true

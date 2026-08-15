@@ -1,0 +1,5 @@
+record_id,experiment_id,date_time,scenario,result,out_accuracy_pct,out_passed_count
+EXP_11D_REASONING_20260810_195854,EXP_11D_REASONING,2026-08-10 19:58:54,10 controlled spatial danger and free-space decision scenarios,VALIDATED,90.0,9
+EXP_11D_REASONING_20260810_195916,EXP_11D_REASONING,2026-08-10 19:59:16,10 controlled spatial danger and free-space decision scenarios,VALIDATED,100.0,10
+EXP_11E_HYSTERESIS_20260810_195923,EXP_11E_HYSTERESIS,2026-08-10 19:59:23,Command stability and directional oscillation suppression comparison,VALIDATED,0,0,0.0
+EXP_11E_HYSTERESIS_20260810_200008,EXP_11E_HYSTERESIS,2026-08-10 20:00:08,Command stability and directional oscillation suppression comparison,VALIDATED,59,0,100.0

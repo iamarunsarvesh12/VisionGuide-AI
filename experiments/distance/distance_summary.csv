@@ -1,0 +1,2 @@
+record_id,experiment_id,date_time,scenario,result,out_mae_m,out_mre_pct,out_category_accuracy_pct
+EXP_11B_DISTANCE_20260810_195801,EXP_11B_DISTANCE,2026-08-10 19:58:01,Controlled monocular distance accuracy evaluation,VALIDATED,0.041,1.96,100.0

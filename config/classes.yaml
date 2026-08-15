@@ -1,0 +1,14 @@
+# Target Navigation Object Classes
+
+classes:
+  0: person
+  1: chair
+  2: table
+  3: door
+  4: stairs
+  5: glass_door
+  6: glass_wall
+  7: cabinet
+  8: corridor
+  9: exit
+  10: drinking_water_source

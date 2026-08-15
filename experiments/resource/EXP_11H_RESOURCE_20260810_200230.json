@@ -1,0 +1,25 @@
+{
+  "record_id": "EXP_11H_RESOURCE_20260810_200230",
+  "experiment_id": "EXP_11H_RESOURCE",
+  "category": "resource",
+  "timestamp": 1786372350.785099,
+  "date_time": "2026-08-10 20:02:30",
+  "os_environment": "Windows 11 / Python 3.14.6",
+  "scenario": "Resource monitoring across YOLOv8m CPU pipeline execution",
+  "configuration": {
+    "num_frames": 30
+  },
+  "measured_outputs": {
+    "total_samples": 30,
+    "avg_cpu_percent": 98.0,
+    "avg_ram_mb": 526.1,
+    "peak_ram_mb": 537.26,
+    "avg_fps": 1.07,
+    "avg_pipeline_latency_ms": 970.78,
+    "total_dropped_frames": 9
+  },
+  "result": "VALIDATED",
+  "limitations": [
+    "CPU-only laptop environment without dedicated hardware neural accelerator"
+  ]
+}

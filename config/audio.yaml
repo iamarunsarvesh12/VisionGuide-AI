@@ -1,0 +1,12 @@
+# Audio Guidance Configuration
+
+tts:
+  engine: "pyttsx3"
+  rate: 175
+  volume: 1.0
+  voice_id: null # Uses default Windows voice if null
+
+device:
+  output_device_name: null # Uses default OS audio output (e.g. Bluetooth headphones)
+  cooldown_seconds: 1.5
+  enable_speech_queue: true

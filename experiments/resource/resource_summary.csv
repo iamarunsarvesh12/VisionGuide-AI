@@ -1,0 +1,2 @@
+record_id,experiment_id,date_time,scenario,result,out_total_samples,out_avg_cpu_percent,out_avg_ram_mb,out_peak_ram_mb,out_avg_fps,out_avg_pipeline_latency_ms,out_total_dropped_frames
+EXP_11H_RESOURCE_20260810_200230,EXP_11H_RESOURCE,2026-08-10 20:02:30,Resource monitoring across YOLOv8m CPU pipeline execution,VALIDATED,30,98.0,526.1,537.26,1.07,970.78,9

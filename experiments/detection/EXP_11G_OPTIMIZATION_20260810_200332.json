@@ -1,0 +1,41 @@
+{
+  "record_id": "EXP_11G_OPTIMIZATION_20260810_200332",
+  "experiment_id": "EXP_11G_OPTIMIZATION",
+  "category": "detection",
+  "timestamp": 1786372412.2721496,
+  "date_time": "2026-08-10 20:03:32",
+  "os_environment": "Windows 11 / Python 3.14.6",
+  "scenario": "CPU PyTorch threading, resolution scaling, and tracking-interleaved frame skipping benchmark",
+  "configuration": {
+    "model": "YOLOv8m",
+    "device": "cpu"
+  },
+  "measured_outputs": {
+    "threads_results_ms": {
+      "1": 1375.56,
+      "2": 1018.35,
+      "4": 882.06
+    },
+    "resolution_results": {
+      "640x480 Standard": {
+        "avg_latency_ms": 771.29,
+        "fps": 1.3
+      },
+      "416x416 Scaled": {
+        "avg_latency_ms": 892.71,
+        "fps": 1.12
+      },
+      "320x320 Fast": {
+        "avg_latency_ms": 927.54,
+        "fps": 1.08
+      }
+    },
+    "baseline_full_latency_ms": 653.83,
+    "interleaved_n3_latency_ms": 233.22,
+    "interleaved_speedup_pct": 64.3
+  },
+  "result": "VALIDATED",
+  "limitations": [
+    "CPU execution environment without TensorRT/ONNX Runtime GPU quantization"
+  ]
+}

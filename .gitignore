@@ -1,0 +1,53 @@
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+
+# Python Bytecode & Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Logs & Debug Output
+logs/
+*.log
+
+# YOLO Model Weights & Binary Models (Auto-downloaded by run_visionguide.py)
+yolov8m.pt
+*.pt
+*.onnx
+*.engine
+*.tflite
+
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+
+# IDE & Editor Configuration
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Build & Distribution Artifacts
+build/
+dist/
+*.egg-info/
+*.tmp
+*.temp
+
+# Internal Tool / Assistant Scratch Files
+.gemini/

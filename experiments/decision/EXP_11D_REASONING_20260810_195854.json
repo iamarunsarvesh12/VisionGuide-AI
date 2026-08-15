@@ -1,0 +1,20 @@
+{
+  "record_id": "EXP_11D_REASONING_20260810_195854",
+  "experiment_id": "EXP_11D_REASONING",
+  "category": "decision",
+  "timestamp": 1786372134.931904,
+  "date_time": "2026-08-10 19:58:54",
+  "os_environment": "Windows 11 / Python 3.14.6",
+  "scenario": "10 controlled spatial danger and free-space decision scenarios",
+  "configuration": {
+    "num_scenarios": 10
+  },
+  "measured_outputs": {
+    "accuracy_pct": 90.0,
+    "passed_count": 9
+  },
+  "result": "VALIDATED",
+  "limitations": [
+    "2D image-space spatial projection without 3D point cloud LIDAR"
+  ]
+}

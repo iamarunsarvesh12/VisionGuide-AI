@@ -1,0 +1,166 @@
+# VisionGuide AI System Configuration
+
+camera:
+  index: 0
+  width: 640
+  height: 480
+  target_fps: 30
+  cap_api_preference: "CAP_ANY" # Windows directshow or standard OpenCV backend
+
+yolo:
+  model_path: "yolov8m.pt"
+  confidence_threshold: 0.35
+  iou_threshold: 0.45
+  device: "cpu"
+
+phmu:
+  enabled: true
+  memory_timeout_seconds: 3.0
+  decay_rate: 0.2
+  minimum_memory_confidence: 0.1
+  persistence_threshold: 0.2
+  recovery_window_seconds: 5.0
+
+distance_estimation:
+  enabled: true
+  method: "monocular_bbox"
+  focal_length_px: 600.0
+  near_threshold_m: 1.5
+  medium_threshold_m: 3.0
+  confidence_threshold: 0.35
+
+distance_profiles:
+  person:
+    reference_height_m: 1.70
+  door:
+    reference_height_m: 2.00
+  chair:
+    reference_height_m: 0.85
+  table:
+    reference_height_m: 0.75
+  stairs:
+    reference_height_m: 1.20
+  glass_door:
+    reference_height_m: 2.00
+  glass_wall:
+    reference_height_m: 2.00
+  cabinet:
+    reference_height_m: 1.50
+  corridor:
+    reference_height_m: 2.20
+  exit:
+    reference_height_m: 2.00
+  default:
+    reference_height_m: 1.00
+
+danger_mapping:
+  enabled: true
+  weights:
+    object: 0.25
+    distance: 0.30
+    position: 0.25
+    motion: 0.05
+    persistence: 0.10
+    memory: 0.05
+  thresholds:
+    critical: 0.85
+    high: 0.70
+    moderate: 0.55
+  position_zones:
+    left_max: 0.33
+    center_max: 0.67
+    frame_width: 640.0
+
+object_hazard_factors:
+  stairs: 0.95
+  glass_door: 0.90
+  glass_wall: 0.85
+  person: 0.70
+  chair: 0.65
+  table: 0.60
+  door: 0.50
+  cabinet: 0.50
+  corridor: 0.40
+  exit: 0.30
+  default: 0.50
+
+free_space:
+  enabled: true
+  regions:
+    left_end: 0.33
+    center_end: 0.67
+  lower_mask_min_y_norm: 0.40
+  thresholds:
+    clear_max: 0.20
+    uncertain_max: 0.45
+  weights:
+    distance_near: 1.00
+    distance_medium: 0.50
+    distance_far: 0.20
+    vertical_lower_boost: 1.25
+
+decision_engine:
+  enabled: true
+  forward_safe_space_threshold: 0.70
+  min_directional_confidence: 0.50
+  stop_threshold: 0.30
+  critical_danger_threshold: 0.85
+  switching_margin: 0.10
+  min_command_hold_duration_sec: 0.5
+  uncertainty_penalty: 0.25
+  weights:
+    safe_space: 0.40
+    danger: 0.30
+    confidence: 0.15
+    stability: 0.15
+    uncertainty: 0.25
+
+audio:
+  cooldown_seconds: 1.5
+  speech_rate: 175
+  volume: 1.0
+
+audio_guidance:
+  enabled: true
+
+  tts:
+    engine: "sapi5"
+    voice: ""
+    rate: 170
+    volume: 1.0
+
+  repetition:
+    enabled: true
+    forward_interval_sec: 2.0
+    left_interval_sec: 1.5
+    right_interval_sec: 1.5
+    stop_interval_sec: 0.8
+
+  priority:
+    stop: 100
+    left: 80
+    right: 80
+    forward: 50
+
+  output:
+    use_system_default: true
+
+  # Legacy keys for backward compatibility
+  tts_engine: "pyttsx3"
+  backend: "sapi5"
+  volume: 1.0
+  speech_rate: 170
+  repeat_interval_sec: 1.5
+  command_cooldown_sec: 0.5
+  stop_override: true
+  queue_enabled: true
+  max_queue_size: 3
+  stale_command_timeout_sec: 2.0
+  priorities:
+    STOP: 100
+    LEFT: 80
+    RIGHT: 80
+    FORWARD: 50
+
+
+

@@ -1,0 +1,24 @@
+{
+  "record_id": "EXP_11C_PHMU_PERSISTENCE_20260810_195839",
+  "experiment_id": "EXP_11C_PHMU_PERSISTENCE",
+  "category": "phmu",
+  "timestamp": 1786372119.9134479,
+  "date_time": "2026-08-10 19:58:39",
+  "os_environment": "Windows 11 / Python 3.14.6",
+  "scenario": "5-stage PHMU temporal memory retention, recovery, and expiration validation",
+  "configuration": {
+    "timeout_s": 2.0,
+    "decay_rate": 0.3,
+    "min_conf": 0.1
+  },
+  "measured_outputs": {
+    "occlusion_retained": true,
+    "recovery_success": true,
+    "expiration_success": true
+  },
+  "result": "VALIDATED",
+  "limitations": [
+    "Relies on BoT-SORT track_id continuity for identity association",
+    "Memory duration bounded by configured timeout constant"
+  ]
+}
