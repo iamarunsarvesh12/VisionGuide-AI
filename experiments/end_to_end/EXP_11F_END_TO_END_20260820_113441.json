@@ -1,0 +1,20 @@
+{
+  "record_id": "EXP_11F_END_TO_END_20260820_113441",
+  "experiment_id": "EXP_11F_END_TO_END",
+  "category": "end_to_end",
+  "timestamp": 1787205881.1057432,
+  "date_time": "2026-08-20 11:34:41",
+  "os_environment": "Windows 11 / Python 3.14.6",
+  "scenario": "End-to-end multi-module pipeline execution across 10 controlled scenarios",
+  "configuration": {
+    "num_scenarios": 10
+  },
+  "measured_outputs": {
+    "overall_accuracy_pct": 100.0,
+    "passed_scenarios": 10
+  },
+  "result": "VALIDATED",
+  "limitations": [
+    "Laptop CPU offline environment baseline"
+  ]
+}

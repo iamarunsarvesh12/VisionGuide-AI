@@ -19,6 +19,7 @@ python run_visionguide.py
 That's it.
 
 The launcher automatically:
+
 - Creates the virtual environment (`.venv`)
 - Switches execution to `.venv` automatically
 - Installs required dependencies from `requirements.txt`
@@ -79,12 +80,12 @@ Bluetooth Audio Headphones / Speakers
 
 ### Key System Characteristics
 
-* **Visual Input**: Standard integrated or external laptop webcam (`cv2.VideoCapture(0)`).
-* **Local CPU AI Processing**: PyTorch-based neural detection and spatial tracking executed completely on local laptop CPU hardware.
-* **100% Offline Execution**: Zero dependency on internet connections, cloud vision APIs, or external server infrastructures.
-* **Audio Guidance**: Real-time spoken navigation instructions dispatched via local Windows SAPI5 offline Text-to-Speech (TTS).
-* **Bluetooth Compatible**: Direct audio output through Windows default audio device (e.g., Bluetooth earbuds or portable speakers).
-* **Target Hardware Context**: Designed for local Windows laptop evaluation (wearable smart-glasses and mobile form factors are future architectural targets and are wrapped cleanly behind modular hardware interfaces).
+- **Visual Input**: Standard integrated or external laptop webcam (`cv2.VideoCapture(0)`).
+- **Local CPU AI Processing**: PyTorch-based neural detection and spatial tracking executed completely on local laptop CPU hardware.
+- **100% Offline Execution**: Zero dependency on internet connections, cloud vision APIs, or external server infrastructures.
+- **Audio Guidance**: Real-time spoken navigation instructions dispatched via local Windows SAPI5 offline Text-to-Speech (TTS).
+- **Bluetooth Compatible**: Direct audio output through Windows default audio device (e.g., Bluetooth earbuds or portable speakers).
+- **Target Hardware Context**: Designed for local Windows laptop evaluation (wearable smart-glasses and mobile form factors are future architectural targets and are wrapped cleanly behind modular hardware interfaces).
 
 ---
 
@@ -167,11 +168,11 @@ VisionGuide AI/
 
 ### Purpose of Major Directories
 
-* **`config/`**: Contains all externalized configuration YAML files, allowing tuning of detection thresholds, danger weighting, PHMU retention times, camera settings, and audio TTS parameters without modifying python code.
-* **`modules/`**: Contains the decoupled 10 core pipeline modules. Each module maintains strict isolation behind clean interface abstractions (`interface.py`, `models.py`).
-* **`tests/`**: Contains automated unit tests (`test_*.py`), performance benchmark scripts (`benchmark_*.py`), interactive visual GUI inspection windows (`view_*.py`), and validation suites (`validate_*.py`).
-* **`docs/`**: Stores empirical performance metrics, resource benchmarks, and test coverage verification reports generated during system validation phases.
-* **`logs/`**: Automatically captures runtime logs for each subsystem and the integrated system wrapper.
+- **`config/`**: Contains all externalized configuration YAML files, allowing tuning of detection thresholds, danger weighting, PHMU retention times, camera settings, and audio TTS parameters without modifying python code.
+- **`modules/`**: Contains the decoupled 10 core pipeline modules. Each module maintains strict isolation behind clean interface abstractions (`interface.py`, `models.py`).
+- **`tests/`**: Contains automated unit tests (`test_*.py`), performance benchmark scripts (`benchmark_*.py`), interactive visual GUI inspection windows (`view_*.py`), and validation suites (`validate_*.py`).
+- **`docs/`**: Stores empirical performance metrics, resource benchmarks, and test coverage verification reports generated during system validation phases.
+- **`logs/`**: Automatically captures runtime logs for each subsystem and the integrated system wrapper.
 
 ---
 
@@ -216,9 +217,11 @@ Activate the virtual environment:
 
 > **Troubleshooting PowerShell Execution Policy**:
 > If PowerShell displays a script execution policy restriction error (`...cannot be loaded because running scripts is disabled on this system`), run the following command to temporarily permit script execution in the current session:
+>
 > ```powershell
 > Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 > ```
+>
 > Then run `.venv\Scripts\Activate.ps1` again.
 
 ### Step 4 — Install Core Dependencies
@@ -255,10 +258,10 @@ The system relies on OpenCV's `VideoCapture` interface to stream live visual fra
 
 ### Interface Details
 
-* **Module Location**: `modules/camera_input/camera.py`
-* **Default Camera Index**: `0` (Standard Windows laptop webcam)
-* **Default Frame Resolution**: `640 x 480` pixels
-* **Target Frame Rate**: `30 FPS`
+- **Module Location**: `modules/camera_input/camera.py`
+- **Default Camera Index**: `0` (Standard Windows laptop webcam)
+- **Default Frame Resolution**: `640 x 480` pixels
+- **Target Frame Rate**: `30 FPS`
 
 ### Testing the Camera Stream
 
@@ -268,8 +271,8 @@ To test the webcam hardware connection and view the live video feed with basic H
 python tests/view_camera.py
 ```
 
-* A window titled **"VisionGuide AI — Camera Input Module Test"** will open displaying your live webcam stream.
-* Press **`q`** or **`ESC`** with the window selected to exit cleanly.
+- A window titled **"VisionGuide AI — Camera Input Module Test"** will open displaying your live webcam stream.
+- Press **`q`** or **`ESC`** with the window selected to exit cleanly.
 
 ### Camera Configuration & Troubleshooting
 
@@ -298,9 +301,9 @@ VisionGuide AI uses the **YOLOv8m (Medium)** object detection model powered by P
 
 ### Model Weights & Path
 
-* **Model File**: `yolov8m.pt` (approx. 52.1 MB) located in the project root directory.
-* **Weights Source**: Pretrained COCO dataset weights.
-* **Automatic Download**: If `yolov8m.pt` is missing from the project root, the `ultralytics` framework will automatically download it on first run.
+- **Model File**: `yolov8m.pt` (approx. 52.1 MB) located in the project root directory.
+- **Weights Source**: Pretrained COCO dataset weights.
+- **Automatic Download**: If `yolov8m.pt` is missing from the project root, the `ultralytics` framework will automatically download it on first run.
 
 ### Detection Hyperparameters (`config/config.yaml`)
 
@@ -340,16 +343,16 @@ All operational parameters across the 10 pipeline modules are configured through
 
 ### Key Parameters in `config/config.yaml`
 
-* **PHMU Retention (`phmu`)**:
-  * `memory_timeout_seconds: 3.0`: Retains memory of occluded or temporarily lost hazards for up to 3 seconds.
-  * `decay_rate: 0.2`: Rate at which memory confidence decays per second when an object is not detected.
-* **Distance Thresholds (`distance_estimation`)**:
-  * `near_threshold_m: 1.5`: Objects within 1.5 meters are classified as `NEAR` (High Proximity Danger).
-  * `medium_threshold_m: 3.0`: Objects between 1.5m and 3.0m are classified as `MEDIUM`.
-* **Decision Engine Hysteresis (`decision_engine`)**:
-  * `switching_margin: 0.10`: Prevents rapid command flickering between directions.
-  * `min_command_hold_duration_sec: 0.5`: Minimum duration to hold a command before switching.
-  * `forward_safe_space_threshold: 0.70`: Free-space threshold required to recommend `FORWARD`.
+- **PHMU Retention (`phmu`)**:
+  - `memory_timeout_seconds: 3.0`: Retains memory of occluded or temporarily lost hazards for up to 3 seconds.
+  - `decay_rate: 0.2`: Rate at which memory confidence decays per second when an object is not detected.
+- **Distance Thresholds (`distance_estimation`)**:
+  - `near_threshold_m: 1.5`: Objects within 1.5 meters are classified as `NEAR` (High Proximity Danger).
+  - `medium_threshold_m: 3.0`: Objects between 1.5m and 3.0m are classified as `MEDIUM`.
+- **Decision Engine Hysteresis (`decision_engine`)**:
+  - `switching_margin: 0.10`: Prevents rapid command flickering between directions.
+  - `min_command_hold_duration_sec: 0.5`: Minimum duration to hold a command before switching.
+  - `forward_safe_space_threshold: 0.70`: Free-space threshold required to recommend `FORWARD`.
 
 ---
 
@@ -358,49 +361,67 @@ All operational parameters across the 10 pipeline modules are configured through
 Each of the 10 system modules can be independently tested, benchmarked, and visually inspected using dedicated scripts in the `tests/` directory.
 
 ### Module 01 — Camera Input (`modules/camera_input`)
-* **Unit Test**: `python -m unittest tests/test_camera.py`
-* **Benchmark**: `python tests/benchmark_camera.py`
-* **Visual Inspector**: `python tests/view_camera.py`
+
+- **Unit Test**: `python -m unittest tests/test_camera.py`
+
+- **Benchmark**: `python tests/benchmark_camera.py`
+- **Visual Inspector**: `python tests/view_camera.py`
 
 ### Module 02 — Object Detection (`modules/object_detection`)
-* **Unit Test**: `python -m unittest tests/test_detection.py`
-* **Benchmark**: `python tests/benchmark_detection.py`
-* **Visual Inspector**: `python tests/view_detection.py`
+
+- **Unit Test**: `python -m unittest tests/test_detection.py`
+
+- **Benchmark**: `python tests/benchmark_detection.py`
+- **Visual Inspector**: `python tests/view_detection.py`
 
 ### Module 03 — Object Tracking (`modules/object_tracking`)
-* **Unit Test**: `python -m unittest tests/test_tracking.py`
-* **Benchmark**: `python tests/benchmark_tracking.py`
-* **Visual Inspector**: `python tests/view_tracking.py`
+
+- **Unit Test**: `python -m unittest tests/test_tracking.py`
+
+- **Benchmark**: `python tests/benchmark_tracking.py`
+- **Visual Inspector**: `python tests/view_tracking.py`
 
 ### Module 04 — Persistent Hazard Memory Unit (PHMU) (`modules/hazard_memory`)
-* **Unit Test**: `python -m unittest tests/test_hazard_memory.py`
-* **Benchmark**: `python tests/benchmark_hazard_memory.py`
-* **Visual Inspector**: `python tests/view_hazard_memory.py`
+
+- **Unit Test**: `python -m unittest tests/test_hazard_memory.py`
+
+- **Benchmark**: `python tests/benchmark_hazard_memory.py`
+- **Visual Inspector**: `python tests/view_hazard_memory.py`
 
 ### Module 05 — Distance Estimation (`modules/distance_estimation`)
-* **Unit Test**: `python -m unittest tests/test_distance_estimation.py`
-* **Benchmark**: `python tests/benchmark_distance_estimation.py`
-* **Visual Inspector**: `python tests/view_distance_estimation.py`
+
+- **Unit Test**: `python -m unittest tests/test_distance_estimation.py`
+
+- **Benchmark**: `python tests/benchmark_distance_estimation.py`
+- **Visual Inspector**: `python tests/view_distance_estimation.py`
 
 ### Module 06 — Danger Mapping (`modules/danger_mapping`)
-* **Unit Test**: `python -m unittest tests/test_danger_mapping.py`
-* **Benchmark**: `python tests/benchmark_danger_mapping.py`
-* **Visual Inspector**: `python tests/view_danger_mapping.py`
+
+- **Unit Test**: `python -m unittest tests/test_danger_mapping.py`
+
+- **Benchmark**: `python tests/benchmark_danger_mapping.py`
+- **Visual Inspector**: `python tests/view_danger_mapping.py`
 
 ### Module 07 — Free-Space Analysis (`modules/free_space`)
-* **Unit Test**: `python -m unittest tests/test_free_space.py`
-* **Benchmark**: `python tests/benchmark_free_space.py`
-* **Visual Inspector**: `python tests/view_free_space.py`
+
+- **Unit Test**: `python -m unittest tests/test_free_space.py`
+
+- **Benchmark**: `python tests/benchmark_free_space.py`
+- **Visual Inspector**: `python tests/view_free_space.py`
 
 ### Module 08 — Decision Engine (`modules/decision_engine`)
-* **Unit Test**: `python -m unittest tests/test_decision_engine.py`
-* **Benchmark**: `python tests/benchmark_decision_engine.py`
-* **Visual Inspector**: `python tests/view_decision_engine.py`
+
+- **Unit Test**: `python -m unittest tests/test_decision_engine.py`
+
+- **Benchmark**: `python tests/benchmark_decision_engine.py`
+- **Visual Inspector**: `python tests/view_decision_engine.py`
 
 ### Module 09 & 10 — Offline Audio Guidance (`modules/audio_guidance`)
-* **Unit Test**: `python -m unittest tests/test_audio_guidance.py tests/test_audio_integration.py`
-* **Benchmark**: `python tests/benchmark_audio_guidance.py`
-* **Visual Inspector**: `python tests/view_audio_guidance.py`
+
+- **Unit Test**: `python -m unittest tests/test_audio_guidance.py tests/test_audio_integration.py`
+
+- **Benchmark**: `python tests/benchmark_audio_guidance.py`
+- **Visual Inspector**: `python tests/view_audio_guidance.py`
 
 ---
 
@@ -415,6 +436,7 @@ python -m unittest discover -s tests
 ```
 
 Expected output:
+
 ```text
 ----------------------------------------------------------------------
 Ran 183 tests in ~36.4s
@@ -425,26 +447,37 @@ OK
 ### Running Specific Validation & Verification Suites
 
 1. **System Integration Test**:
+
    ```powershell
    python -m unittest tests/test_system_integration.py
    ```
+
 2. **End-to-End Navigation Scenario Validation**:
+
    ```powershell
    python tests/validate_end_to_end.py
    ```
+
 3. **PHMU Hazard Persistence & Memory Retention Test**:
+
    ```powershell
    python tests/validate_phmu_persistence.py
    ```
+
 4. **Monocular Distance Estimation Accuracy Test**:
+
    ```powershell
    python tests/validate_distance_accuracy.py
    ```
+
 5. **Navigation Decision Reasoning Verification**:
+
    ```powershell
    python tests/validate_navigation_reasoning.py
    ```
+
 6. **Safety Failure & Emergency Override Test**:
+
    ```powershell
    python -m unittest tests/test_safety_failures.py
    ```
@@ -503,9 +536,9 @@ python run_visionguide.py
 
 ### Stopping the Application
 
-* Click on the OpenCV visual window and press **`q`** or **`ESC`**.
-* Alternatively, press **`Ctrl+C`** in the PowerShell terminal.
-* The system will gracefully release the webcam hardware, terminate background TTS audio threads, print session statistics, and exit cleanly.
+- Click on the OpenCV visual window and press **`q`** or **`ESC`**.
+- Alternatively, press **`Ctrl+C`** in the PowerShell terminal.
+- The system will gracefully release the webcam hardware, terminate background TTS audio threads, print session statistics, and exit cleanly.
 
 ---
 
@@ -597,13 +630,13 @@ python tests/view_validation_dashboard.py
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-* **Color-Coded Bounding Boxes**:
-  * 🔴 **Red**: Critical Danger ($>0.85$) or Emergency STOP.
-  * 🟡 **Yellow**: Moderate/High Hazard ($0.55 - 0.85$).
-  * 🟢 **Green**: Safe / Low Hazard ($<0.55$).
-  * 🔵 **Cyan**: PHMU `REMEMBERED` Hazard (Occluded or temporarily lost object retained in memory).
-* **Directional Region Overlay**: Vertical grid lines denoting **LEFT (0-33%)**, **CENTER (33-67%)**, and **RIGHT (67-100%)** visual zones.
-* **Top Telemetry Bar**: Shows live pipeline frame rate (FPS), frame processing latency (ms), system RAM footprint (MB), and CPU utilization (%).
+- **Color-Coded Bounding Boxes**:
+  - 🔴 **Red**: Critical Danger ($>0.85$) or Emergency STOP.
+  - 🟡 **Yellow**: Moderate/High Hazard ($0.55 - 0.85$).
+  - 🟢 **Green**: Safe / Low Hazard ($<0.55$).
+  - 🔵 **Cyan**: PHMU `REMEMBERED` Hazard (Occluded or temporarily lost object retained in memory).
+- **Directional Region Overlay**: Vertical grid lines denoting **LEFT (0-33%)**, **CENTER (33-67%)**, and **RIGHT (67-100%)** visual zones.
+- **Top Telemetry Bar**: Shows live pipeline frame rate (FPS), frame processing latency (ms), system RAM footprint (MB), and CPU utilization (%).
 
 ---
 
@@ -692,23 +725,28 @@ Get-Content logs/system_integration.log -Tail 20 -Wait
 Follow this 5-stage demonstration procedure for live presentation and Robo Expo evaluation:
 
 ### Scenario 1 — Clear Path Demonstration (`FORWARD`)
+
 1. Point webcam down an open, unobstructed hallway or room path.
 2. **Observe Output**: Visual HUD displays `COMMAND: FORWARD` in green; spoken audio announces *"Forward"*.
 
 ### Scenario 2 — Center Obstacle Avoidance (`LEFT` / `RIGHT` Detour)
+
 1. Place a chair or obstacle directly in the center of the camera field of view (< 2.0 meters away).
 2. **Observe Output**: System detects center hazard, evaluates side zones, displays `COMMAND: LEFT` or `RIGHT` in yellow, and speaks *"Left"* or *"Right"*.
 
 ### Scenario 3 — Temporary Occlusion & Memory Persistence (PHMU Demo)
+
 1. Place an object in view so it registers as an active hazard.
 2. Momentarily block or obscure the camera view of the object with a sheet of paper or hand.
 3. **Observe Output**: Object bounding box turns **Cyan** (`REMEMBERED` state); PHMU retains the hazard in memory for up to 3 seconds, preserving the safety detour command even while visually occluded.
 
 ### Scenario 4 — Completely Blocked Path Emergency (`STOP`)
+
 1. Block both left, center, and right regions or stand directly in front of a wall/large object (< 1.5 meters).
 2. **Observe Output**: Visual HUD flashes `COMMAND: STOP` in red; system instantly overrides audio queue with priority 100 and speaks *"Stop"*.
 
 ### Scenario 5 — Wireless Bluetooth Audio Verification
+
 1. Pair Bluetooth earbuds to the Windows laptop.
 2. Walk away from the laptop keyboard while listening to real-time audio guidance (*"Forward"*, *"Left"*, *"Right"*, *"Stop"*) spoken clearly through the Bluetooth headset.
 
@@ -718,7 +756,7 @@ Follow this 5-stage demonstration procedure for live presentation and Robo Expo 
 
 > [!WARNING]
 > **Safety & Research Disclaimer**
-> 
+>
 > **VisionGuide AI** is currently a research, educational, and proof-of-concept assistive technology prototype. It is **not** a certified medical device or replacement for trained white cane mobility, guide dogs, or human assistance. The system operates using monocular distance approximation and CPU-bound neural detection which have inherent physical and environmental limitations. Do not rely solely on this prototype for real-world navigation in hazardous or safety-critical mobility environments.
 
 ---
@@ -726,12 +764,15 @@ Follow this 5-stage demonstration procedure for live presentation and Robo Expo 
 ## 19. Developer & Maintenance Guidelines
 
 ### How to Modify Hyperparameters
+
 All operational thresholds (e.g., detection confidence, distance profiles, danger weights, free-space region boundaries, decision switching margins) are externalized in `config/config.yaml`. Edit YAML values directly without modifying core Python code.
 
 ### Module Architecture & Isolation
+
 Each subsystem resides in its own isolated directory inside `modules/`. When introducing enhancements or new hardware abstractions, maintain the decoupled design pattern by updating `interface.py` and `models.py` within the respective module directory.
 
 ### Running Automated Test Suites After Edits
+
 Always verify codebase integrity after making code or configuration changes by running the automated unit test suite:
 
 ```powershell
@@ -744,10 +785,10 @@ python -m unittest discover -s tests
 
 Before running a live demonstration, confirm the following verification steps:
 
-* [x] **Python Environment**: Python 3.10+ virtual environment activated.
-* [x] **Dependencies Installed**: PyTorch CPU, OpenCV, Ultralytics, pyttsx3, sounddevice, psutil installed.
-* [x] **Hardware Check**: Webcam connected and index verified (`python tests/view_camera.py`).
-* [x] **Model Check**: `yolov8m.pt` present in project root.
-* [x] **Audio Check**: Windows audio default endpoint set to speakers or Bluetooth headphones.
-* [x] **Unit Test Suite**: All 183 automated tests passing (`python -m unittest discover -s tests`).
-* [x] **Master Executable**: Pipeline boots cleanly via `python run_visionguide.py`.
+- [x] **Python Environment**: Python 3.10+ virtual environment activated.
+- [x] **Dependencies Installed**: PyTorch CPU, OpenCV, Ultralytics, pyttsx3, sounddevice, psutil installed.
+- [x] **Hardware Check**: Webcam connected and index verified (`python tests/view_camera.py`).
+- [x] **Model Check**: `yolov8m.pt` present in project root.
+- [x] **Audio Check**: Windows audio default endpoint set to speakers or Bluetooth headphones.
+- [x] **Unit Test Suite**: All 183 automated tests passing (`python -m unittest discover -s tests`).
+- [x] **Master Executable**: Pipeline boots cleanly via `python run_visionguide.py`.

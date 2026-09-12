@@ -228,6 +228,9 @@ class OfflineAudioGuidance(AudioGuidanceInterface):
         else:
             cmd_str = str(command).upper()
 
+        logger.info(f"[DECISION] Command: {cmd_str}")
+        logger.info(f"[AUDIO] Received command: {cmd_str}")
+
         # Step 2: Validate Command
         if cmd_str not in VALID_COMMANDS:
             err_msg = f"Invalid command '{cmd_str}'. Must be one of {sorted(list(VALID_COMMANDS))}."
@@ -247,6 +250,8 @@ class OfflineAudioGuidance(AudioGuidanceInterface):
             return res
 
         spoken_text = COMMAND_TEXT_MAP[cmd_str]
+        logger.info(f"[AUDIO] Mapped text: \"{spoken_text}\"")
+
         priority = DEFAULT_PRIORITY_MAP.get(cmd_str, 50)
         rep_interval = self.config.repetition_interval.get(cmd_str, 1.5)
 
@@ -320,7 +325,9 @@ class OfflineAudioGuidance(AudioGuidanceInterface):
         with self._lock:
             self.total_stop_overrides += 1
 
-        logger.info("[STOP PRIORITY] Emergency STOP received. Interrupting lower priority audio & clearing queue.")
+        logger.info("[AUDIO] STOP priority override")
+        logger.info("[AUDIO] Clearing pending directional commands")
+        logger.info("[TTS] Interrupting current speech")
 
         if self.tts_engine:
             try:
@@ -345,6 +352,8 @@ class OfflineAudioGuidance(AudioGuidanceInterface):
 
             # Invert priority (-priority) so higher priority executes first in min-heap
             item = (-msg.priority, msg.timestamp, cnt, msg)
+
+            logger.info(f"[AUDIO] Queueing message: {msg.command}")
 
             try:
                 self._queue.put_nowait(item)
@@ -404,7 +413,8 @@ class OfflineAudioGuidance(AudioGuidanceInterface):
             self.is_speaking = True
             self.current_command = msg.command
 
-        logger.info(f"AUDIO OUT -> Command: {msg.command} | Spoken Text: \"{msg.text}\" | Priority: {msg.priority}")
+        logger.info(f"[AUDIO] Worker processing message: {msg.command}")
+        logger.info(f"[TTS] SAPI5 speaking: \"{msg.text}\"")
         t0 = time.perf_counter()
         ok = False
         try:
@@ -423,7 +433,8 @@ class OfflineAudioGuidance(AudioGuidanceInterface):
             if ok:
                 self.total_commands_spoken += 1
 
-        logger.info(f"AUDIO COMPLETED -> Text: \"{msg.text}\" | Success: {ok} | Duration: {duration_ms:.1f}ms")
+        logger.info(f"[TTS] Speech completed: \"{msg.text}\" (success={ok}, duration={duration_ms:.1f}ms)")
+        logger.info(f"[AUDIO] Output completed: {msg.command}")
         return ok
 
     def stop(self) -> None:

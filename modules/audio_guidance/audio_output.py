@@ -57,9 +57,12 @@ class AudioOutputDevice:
         try:
             import pyttsx3
             engine = pyttsx3.init('sapi5')
-            # Check default voice
             voice = engine.getProperty('voice')
-            engine.stop()
+            try:
+                engine.stop()
+            except Exception:
+                pass
+            del engine
             if voice:
                 return f"SAPI5 Audio Endpoint ({voice.split('\\')[-1]})", False
         except Exception:

@@ -51,21 +51,48 @@ class TTSEngineInterface(ABC):
 class Pyttsx3TTSEngine(TTSEngineInterface):
     """
     Offline TTS Engine implementation using pyttsx3 (SAPI5 on Windows).
-    Ensures safe COM thread initialization and exception handling.
+    Ensures safe COM thread initialization and exception handling across background worker threads.
     """
 
     def __init__(self, backend: str = "sapi5"):
+        import threading
         self.backend = backend
-        self._engine = None
         self._is_initialized = False
         self.volume = 1.0
         self.speech_rate = 170
         self.voice_name = ""
+        self._cached_voices: List[Dict[str, Any]] = []
+        self._local = threading.local()
+
+    def _get_engine(self):
+        """Retrieve or instantiate pyttsx3 engine for the current active thread."""
+        if not hasattr(self._local, "engine") or self._local.engine is None:
+            try:
+                import pythoncom
+                pythoncom.CoInitialize()
+            except Exception:
+                pass
+            import pyttsx3
+            eng = pyttsx3.init(driverName=self.backend)
+            try:
+                eng.setProperty("volume", self.volume)
+                eng.setProperty("rate", self.speech_rate)
+                if self.voice_name:
+                    voices = eng.getProperty("voices")
+                    for v in voices:
+                        if self.voice_name.lower() in getattr(v, "name", "").lower():
+                            eng.setProperty("voice", getattr(v, "id"))
+                            break
+            except Exception as ve:
+                logger.warning(f"Error setting pyttsx3 engine properties on thread: {ve}")
+            self._local.engine = eng
+        return self._local.engine
 
     def initialize(self, volume: float = 1.0, speech_rate: int = 170, voice_name: str = "") -> bool:
-        """Initialize pyttsx3 engine and configure properties."""
+        """Initialize pyttsx3 parameters and probe backend hardware cleanly."""
+        self.volume = max(0.0, min(1.0, volume))
+        self.speech_rate = max(50, min(400, speech_rate))
         try:
-            # Ensure COM is initialized for multithreaded Windows environment if pythoncom is available
             try:
                 import pythoncom
                 pythoncom.CoInitialize()
@@ -73,31 +100,35 @@ class Pyttsx3TTSEngine(TTSEngineInterface):
                 pass
 
             import pyttsx3
-            self._engine = pyttsx3.init(driverName=self.backend)
-            self.set_volume(volume)
-            self.set_rate(speech_rate)
+            probe = pyttsx3.init(driverName=self.backend)
+            self._cached_voices = []
+            try:
+                raw_voices = probe.getProperty("voices")
+                for i, v in enumerate(raw_voices):
+                    self._cached_voices.append({
+                        "id": getattr(v, "id", str(i)),
+                        "name": getattr(v, "name", f"Voice_{i}"),
+                        "languages": getattr(v, "languages", []),
+                    })
+            except Exception as ve:
+                logger.warning(f"Error querying voices during probe: {ve}")
 
-            # Voice selection
             if voice_name:
-                voices = self.get_voices()
-                matched = False
-                for v in voices:
+                for v in self._cached_voices:
                     if voice_name.lower() in v["name"].lower():
-                        try:
-                            self._engine.setProperty("voice", v["id"])
-                            self.voice_name = v["name"]
-                            matched = True
-                            logger.info(f"Selected TTS voice: {v['name']}")
-                            break
-                        except Exception as ve:
-                            logger.warning(f"Failed to set voice {voice_name}: {ve}")
-                if not matched and voices:
-                    self.voice_name = voices[0]["name"]
-                    logger.info(f"Fallback to default TTS voice: {self.voice_name}")
-            else:
-                voices = self.get_voices()
-                if voices:
-                    self.voice_name = voices[0]["name"]
+                        self.voice_name = v["name"]
+                        break
+
+            if not self.voice_name and self._cached_voices:
+                self.voice_name = self._cached_voices[0]["name"]
+
+            # Release probe engine so COM thread ownership is clean for the background worker thread
+            del probe
+            try:
+                import pythoncom
+                pythoncom.CoUninitialize()
+            except Exception:
+                pass
 
             self._is_initialized = True
             logger.info("Pyttsx3TTSEngine (SAPI5) initialized successfully.")
@@ -108,20 +139,14 @@ class Pyttsx3TTSEngine(TTSEngineInterface):
             return False
 
     def speak(self, text: str) -> bool:
-        """Speak text using pyttsx3."""
-        if not self._is_initialized or not self._engine:
+        """Speak text synchronously using pyttsx3 on current thread."""
+        if not self._is_initialized:
             logger.warning("Pyttsx3TTSEngine not initialized; skipping speech.")
             return False
         try:
-            # Multi-threading COM check
-            try:
-                import pythoncom
-                pythoncom.CoInitialize()
-            except Exception:
-                pass
-
-            self._engine.say(text)
-            self._engine.runAndWait()
+            eng = self._get_engine()
+            eng.say(text)
+            eng.runAndWait()
             return True
         except Exception as e:
             logger.error(f"Error during pyttsx3 speech synthesis: {e}")
@@ -129,40 +154,39 @@ class Pyttsx3TTSEngine(TTSEngineInterface):
 
     def stop(self) -> None:
         """Interrupt pyttsx3 speech."""
-        if self._engine:
+        if hasattr(self._local, "engine") and self._local.engine:
             try:
-                self._engine.stop()
+                self._local.engine.stop()
             except Exception as e:
                 logger.warning(f"Error stopping pyttsx3 engine: {e}")
 
     def set_volume(self, volume: float) -> bool:
         """Set speech volume (0.0 to 1.0)."""
         self.volume = max(0.0, min(1.0, volume))
-        if self._engine:
+        if hasattr(self._local, "engine") and self._local.engine:
             try:
-                self._engine.setProperty("volume", self.volume)
-                return True
+                self._local.engine.setProperty("volume", self.volume)
             except Exception as e:
                 logger.warning(f"Error setting volume: {e}")
-        return False
+        return True
 
     def set_rate(self, rate: int) -> bool:
         """Set speech rate (words per minute)."""
         self.speech_rate = max(50, min(400, rate))
-        if self._engine:
+        if hasattr(self._local, "engine") and self._local.engine:
             try:
-                self._engine.setProperty("rate", self.speech_rate)
-                return True
+                self._local.engine.setProperty("rate", self.speech_rate)
             except Exception as e:
                 logger.warning(f"Error setting rate: {e}")
-        return False
+        return True
 
     def get_voices(self) -> List[Dict[str, Any]]:
         """Return available voices."""
-        if not self._engine:
-            return []
+        if self._cached_voices:
+            return self._cached_voices
         try:
-            voices = self._engine.getProperty("voices")
+            eng = self._get_engine()
+            voices = eng.getProperty("voices")
             return [
                 {
                     "id": getattr(v, "id", str(i)),
@@ -178,7 +202,8 @@ class Pyttsx3TTSEngine(TTSEngineInterface):
     def close(self) -> None:
         """Release engine resources."""
         self.stop()
-        self._engine = None
+        if hasattr(self._local, "engine"):
+            self._local.engine = None
         self._is_initialized = False
 
 

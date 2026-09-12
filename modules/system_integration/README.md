@@ -4,6 +4,7 @@
 `Module 11 — System Integration` serves as the top-level orchestrator for **VisionGuide AI**, unifying all 10 independent subsystems into a single, deterministic, safety-first assistive navigation pipeline for visually impaired users.
 
 ## 2. Architecture & Pipeline Execution Flow
+
 ```
 [01. Camera Input]
        ↓ BGR Image Matrix
