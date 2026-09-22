@@ -17,6 +17,7 @@ from modules.audio_guidance.interface import AudioGuidanceInterface
 from modules.audio_guidance.tts_engine import (
     TTSEngineInterface,
     Pyttsx3TTSEngine,
+    NativeSAPI5TTSEngine,
     MockTTSEngine,
 )
 from modules.audio_guidance.audio_output import AudioOutputDevice
@@ -133,8 +134,10 @@ class OfflineAudioGuidance(AudioGuidanceInterface):
                 engine_name = tts_cfg.get("engine", "sapi5").lower()
                 legacy_type = str(self.raw_config.get("tts_engine", "pyttsx3")).lower()
 
-                if engine_name == "mock" or legacy_type == "mock" or legacy_type == "fake":
+                if engine_name in ["mock", "fake"] or legacy_type in ["mock", "fake"]:
                     self.tts_engine = MockTTSEngine()
+                elif (engine_name in ["sapi5", "native_sapi5", "windows"] or legacy_type in ["sapi5", "windows"]) and sys.platform == "win32":
+                    self.tts_engine = NativeSAPI5TTSEngine()
                 else:
                     backend_str = "sapi5" if engine_name in ["sapi5", "pyttsx3"] else engine_name
                     self.tts_engine = Pyttsx3TTSEngine(backend=backend_str)

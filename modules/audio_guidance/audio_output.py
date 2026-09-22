@@ -47,24 +47,21 @@ class AudioOutputDevice:
         try:
             import sounddevice as sd
             default_device_info = sd.query_devices(kind='output')
-            name = default_device_info.get('name', 'Default Audio Output')
-            is_bt = any(keyword in name.lower() for keyword in ['bluetooth', 'hands-free', 'bth', 'airpods', 'buds', 'headset', 'wireless'])
+            name = str(default_device_info.get('name', 'Default Audio Output')).strip()
+            if name.count('(') > name.count(')'):
+                name += ')'
+            is_bt = any(keyword in name.lower() for keyword in ['bluetooth', 'hands-free', 'bth', 'airpods', 'buds', 'headset', 'wireless', 'nord'])
             return name, is_bt
         except Exception:
             pass
 
-        # Try pyttsx3/SAPI5 voice output property query as secondary heuristic
+        # Try direct SAPI5 / pyttsx3 voice output property query as secondary heuristic
         try:
-            import pyttsx3
-            engine = pyttsx3.init('sapi5')
-            voice = engine.getProperty('voice')
-            try:
-                engine.stop()
-            except Exception:
-                pass
-            del engine
-            if voice:
-                return f"SAPI5 Audio Endpoint ({voice.split('\\')[-1]})", False
+            import win32com.client
+            sp = win32com.client.Dispatch("SAPI.SpVoice")
+            v = sp.Voice
+            name = v.GetDescription() if v else "Windows Default SAPI5 Endpoint"
+            return f"SAPI5 Audio Endpoint ({name})", False
         except Exception:
             pass
 

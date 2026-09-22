@@ -10,6 +10,7 @@ from modules.audio_guidance.guidance import OfflineAudioGuidance
 from modules.audio_guidance.tts_engine import (
     TTSEngineInterface,
     Pyttsx3TTSEngine,
+    NativeSAPI5TTSEngine,
     MockTTSEngine,
     FakeTTSEngine,
 )
@@ -26,6 +27,7 @@ __all__ = [
     "OfflineAudioGuidance",
     "TTSEngineInterface",
     "Pyttsx3TTSEngine",
+    "NativeSAPI5TTSEngine",
     "MockTTSEngine",
     "FakeTTSEngine",
     "AudioOutputDevice",

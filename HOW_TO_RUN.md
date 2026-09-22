@@ -13,7 +13,7 @@ This document provides a comprehensive, step-by-step guide explaining how to ins
 Open PowerShell inside the project folder and run:
 
 ```powershell
-python run_visionguide.py
+'python run_visionguide.py'
 ```
 
 That's it.
